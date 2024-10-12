@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { saltRounds } from '../../src/config/vars';
-import { permission_role, permissions, roles } from './data';
+import {permission_role, permissions, roles, sectors} from './data';
 import {hash} from "bcryptjs";
 
 const prisma = new PrismaClient();
@@ -42,6 +42,11 @@ const main = async () => {
                 role_id: admin.roleId,
                 user_id: admin.id
             },
+            skipDuplicates: true
+        });
+
+        await prisma.sector.createMany({
+            data: sectors,
             skipDuplicates: true
         });
 

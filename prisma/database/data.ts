@@ -1,4 +1,9 @@
-import {Permission, Permission_Role, Role} from '@prisma/client';
+import {
+    Permission,
+    Permission_Role,
+    Role,
+    Sector
+} from '@prisma/client';
 
 export const roles: Role[] = [
     {
@@ -94,3 +99,15 @@ export const permission_role: Permission_Role[] = [
     {role_id: 2, permission_id: 8},
     {role_id: 2, permission_id: 9}
 ];
+
+export const sectors: Sector[] = [
+    {id: 1, name: 'SEMAD-DAL'},
+    {id: 2, name: 'SEMAD-DTI'},
+    {id: 3, name: 'SEMAD-DGP'},
+    {id: 4, name: 'SEMAD-DSO'},
+    {id: 5, name: 'SEMAD-EGPA'},
+    {id: 6, name: 'SEMAD-GAB'},
+    {id: 7, name: 'SEMAD-NUCOM'},
+    {id: 8, name: 'SEMAD-NUJUR'},
+    {id: 9, name: 'SEMAD-SA'}
+]
