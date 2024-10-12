@@ -1,9 +1,9 @@
-import {CreateUser, UpdateUser, UserRepository} from "./user.interface";
+import {CreateUserDTO, UpdateUserDTO,} from "./user.interface";
 import {prisma} from "../../config/prisma";
 import {User} from "@prisma/client";
 
-export class UserRepositoryPrisma implements UserRepository {
-    public async create(data: CreateUser): Promise<User> {
+export class UserRepository {
+    public async create(data: CreateUserDTO): Promise<User> {
         return prisma.user.create({
             data: data
         });
@@ -25,7 +25,7 @@ export class UserRepositoryPrisma implements UserRepository {
         return prisma.user.findFirst({where: {fullName}});
     }
 
-    public async update(id: number, data: UpdateUser): Promise<User> {
+    public async update(id: number, data: UpdateUserDTO): Promise<User> {
         return prisma.user.update({
             where: {id: id},
             data: data
