@@ -1,34 +1,36 @@
-import {User} from "@prisma/client";
-
-export interface CreateUser {
+export interface CreateUserDTO {
     fullName: string;
     email: string;
     password: string;
+    sectorId: number;
     roleId: number;
 }
 
-export interface UserResponse {
-    fullName: string;
+export interface UserResponseDTO {
+    id: number;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export type UserWithoutPasswordDTO = Omit<UserResponseDTO, "password">;
+
+export interface UpdateUserDTO {
+    fullName?: string;
+    sectorId?: number;
+    roleId?: number;
+}
+
+export interface AuthUserRequestDTO {
     email: string;
-    password?: string;
-    roleId: number;
+    password: string;
 }
 
-export interface UpdateUser extends CreateUser {
-}
+export interface IUserService {
+    create(data: CreateUserDTO): Promise<UserResponseDTO>;
 
-export interface UserRepository {
-    create(data: CreateUser): Promise<User>;
+    update(id: number, data: UpdateUserDTO): Promise<UserResponseDTO>;
 
-    update(id: number, data: UpdateUser): Promise<User>;
+    findById(id: number): Promise<UserResponseDTO | null>;
 
-    findById(id: number): Promise<User | null>;
-
-    findByEmail(email: string): Promise<User | null>;
-
-    findAll(): Promise<User[]>;
-
-    findByName(fullName: string): Promise<User | null>;
-
-    addRole(id: number, roleId: number): Promise<void>;
+    findAll(): Promise<UserWithoutPasswordDTO[]>;
 }
