@@ -13,12 +13,44 @@ export class UserRepository {
         return prisma.user.findMany();
     }
 
-    public async findByEmail(email: string): Promise<User | null> {
-        return prisma.user.findUnique({where: {email}});
+    public async findByEmail(email: string) {
+        return prisma.user.findUnique({
+            where: {email},
+            include: {
+                Sector: true,
+                User_Role: {
+                    select: {
+                        Role: {
+                            select: {
+                                Permission_Role: {
+                                    select: {
+                                        Permission: {
+                                            select: {
+                                                id: true,
+                                                name: true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                serviceOrder: true,
+            }
+        });
     }
 
     public async findById(id: number): Promise<User | null> {
-        return prisma.user.findUnique({where: {id}});
+        return prisma.user.findUnique({
+            where: {
+                id: id,
+            },
+            include: {
+                Sector: true,
+                serviceOrder: true,
+            }
+        });
     }
 
     public async findByName(fullName: string): Promise<User | null> {
