@@ -3,11 +3,7 @@ import {UserService} from "./user.service";
 import {CreateUserDTO, UserResponseDTO} from "./user.interface";
 
 export class UsersController {
-    private userService: UserService;
-
-    constructor(userService: UserService) {
-        this.userService = userService;
-    }
+    constructor(private readonly userService: UserService) {}
 
     public async create(req: Request, res: Response): Promise<Response> {
         const {fullName, email, password, roleId, sectorId}: CreateUserDTO = req.body;
@@ -36,6 +32,14 @@ export class UsersController {
     public async findById(req: Request, res: Response): Promise<Response> {
         const {id} = req.params;
         const user = await this.userService.findById(parseInt(id));
+        return res.status(200).json({
+            user: user
+        });
+    }
+
+    public async me(req: Request, res: Response): Promise<Response> {
+        const id = req.user?.userId;
+        const user = await this.userService.findById(id as number);
         return res.status(200).json({
             user: user
         });
