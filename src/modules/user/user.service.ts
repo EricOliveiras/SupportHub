@@ -6,13 +6,9 @@ import {HttpException} from "../../errors/http.exception";
 import {saltRounds} from "../../config/vars";
 import {hash} from "bcryptjs";
 import {UserRepository} from "./user.repository";
-import {prisma} from "../../config/prisma";
 
 export class UserService implements IUserService {
-    private userRepository: UserRepository;
-
-    constructor(userRepository: UserRepository) {
-        this.userRepository = userRepository;
+    constructor(private readonly userRepository: UserRepository) {
     }
 
     public async create(user: CreateUserDTO): Promise<UserResponseDTO> {
