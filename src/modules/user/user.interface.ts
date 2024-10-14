@@ -25,6 +25,10 @@ export interface AuthUserRequestDTO {
     password: string;
 }
 
+export interface AuthUserResponseDTO {
+    token: string;
+}
+
 export interface IUserService {
     create(data: CreateUserDTO): Promise<UserResponseDTO>;
 
