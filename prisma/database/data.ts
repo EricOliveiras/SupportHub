@@ -80,6 +80,12 @@ export const permissions: Permission[] = [
         name: 'delete:order',
         description: null,
         created_at: new Date(),
+    },
+    {
+        id: 11,
+        name: 'read:me',
+        description: null,
+        created_at: new Date(),
     }
 ];
 
@@ -94,10 +100,12 @@ export const permission_role: Permission_Role[] = [
     {role_id: 1, permission_id: 8},
     {role_id: 1, permission_id: 9},
     {role_id: 1, permission_id: 10},
+    {role_id: 1, permission_id: 11},
     {role_id: 2, permission_id: 6},
     {role_id: 2, permission_id: 7},
     {role_id: 2, permission_id: 8},
-    {role_id: 2, permission_id: 9}
+    {role_id: 2, permission_id: 9},
+    {role_id: 2, permission_id: 11}
 ];
 
 export const sectors: Sector[] = [
