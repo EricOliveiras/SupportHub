@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev:start": "nodemon",
-    "dev:build": "docker compose up -d && prisma generate && prisma migrate dev && prisma db seed"
+    "dev:build": "docker compose up -d && timeout /t 5 && prisma generate && prisma migrate dev && prisma db seed"
   },
   "prisma": {
     "seed": "ts-node ./prisma/database/seed.ts"
