@@ -86,6 +86,36 @@ export const permissions: Permission[] = [
         name: 'read:me',
         description: null,
         created_at: new Date(),
+    },
+    {
+        id: 12,
+        name: 'create:sector',
+        description: null,
+        created_at: new Date(),
+    },
+    {
+        id: 13,
+        name: 'read:sector',
+        description: null,
+        created_at: new Date(),
+    },
+    {
+        id: 14,
+        name: 'read:sector:list',
+        description: null,
+        created_at: new Date(),
+    },
+    {
+        id: 15,
+        name: 'update:sector',
+        description: null,
+        created_at: new Date(),
+    },
+    {
+        id: 16,
+        name: 'delete:sector',
+        description: null,
+        created_at: new Date(),
     }
 ];
 
@@ -101,6 +131,11 @@ export const permission_role: Permission_Role[] = [
     {role_id: 1, permission_id: 9},
     {role_id: 1, permission_id: 10},
     {role_id: 1, permission_id: 11},
+    {role_id: 1, permission_id: 12},
+    {role_id: 1, permission_id: 13},
+    {role_id: 1, permission_id: 14},
+    {role_id: 1, permission_id: 15},
+    {role_id: 1, permission_id: 16},
     {role_id: 2, permission_id: 6},
     {role_id: 2, permission_id: 7},
     {role_id: 2, permission_id: 8},
@@ -108,14 +143,14 @@ export const permission_role: Permission_Role[] = [
     {role_id: 2, permission_id: 11}
 ];
 
-export const sectors: Sector[] = [
-    {id: 1, name: 'SEMAD-DAL'},
-    {id: 2, name: 'SEMAD-DTI'},
-    {id: 3, name: 'SEMAD-DGP'},
-    {id: 4, name: 'SEMAD-DSO'},
-    {id: 5, name: 'SEMAD-EGPA'},
-    {id: 6, name: 'SEMAD-GAB'},
-    {id: 7, name: 'SEMAD-NUCOM'},
-    {id: 8, name: 'SEMAD-NUJUR'},
-    {id: 9, name: 'SEMAD-SA'}
-]
+export const sectors: Omit<Sector, 'id'>[] = [
+    { name: 'SEMAD-DAL' },
+    { name: 'SEMAD-DTI' },
+    { name: 'SEMAD-DGP' },
+    { name: 'SEMAD-DSO' },
+    { name: 'SEMAD-EGPA' },
+    { name: 'SEMAD-GAB' },
+    { name: 'SEMAD-NUCOM' },
+    { name: 'SEMAD-NUJUR' },
+    { name: 'SEMAD-SA' }
+];
