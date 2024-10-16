@@ -13,6 +13,11 @@ const availableFeatures = [
     'read:order:list',
     'update:order',
     'delete:order',
+    'create:sector',
+    'read:sector',
+    'read:sector:list',
+    'update:sector',
+    'delete:sector'
 ] as const;
 
 type AvailableFeatures = typeof availableFeatures[number];
