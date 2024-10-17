@@ -15,7 +15,7 @@ export class SectorRepository {
         return db.sector.findMany({
             include: {
                 users: true,
-                orders: true,
+                tickets: true,
             }
         });
     }
@@ -25,7 +25,7 @@ export class SectorRepository {
             where: {id},
             include: {
                 users: true,
-                orders: true,
+                tickets: true,
             }
         });
     }
