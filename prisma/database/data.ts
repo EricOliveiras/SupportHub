@@ -53,31 +53,31 @@ export const permissions: Permission[] = [
     },
     {
         id: 6,
-        name: 'create:order',
+        name: 'create:ticket',
         description: null,
         created_at: new Date(),
     },
     {
         id: 7,
-        name: 'read:order',
+        name: 'read:ticket',
         description: null,
         created_at: new Date(),
     },
     {
         id: 8,
-        name: 'read:order:list',
+        name: 'read:ticket:list',
         description: null,
         created_at: new Date(),
     },
     {
         id: 9,
-        name: 'update:order',
+        name: 'update:ticket',
         description: null,
         created_at: new Date(),
     },
     {
         id: 10,
-        name: 'delete:order',
+        name: 'delete:ticket',
         description: null,
         created_at: new Date(),
     },
@@ -140,17 +140,18 @@ export const permission_role: Permission_Role[] = [
     {role_id: 2, permission_id: 7},
     {role_id: 2, permission_id: 8},
     {role_id: 2, permission_id: 9},
+    {role_id: 2, permission_id: 10},
     {role_id: 2, permission_id: 11}
 ];
 
 export const sectors: Omit<Sector, 'id'>[] = [
-    { name: 'SEMAD-DAL' },
-    { name: 'SEMAD-DTI' },
-    { name: 'SEMAD-DGP' },
-    { name: 'SEMAD-DSO' },
-    { name: 'SEMAD-EGPA' },
-    { name: 'SEMAD-GAB' },
-    { name: 'SEMAD-NUCOM' },
-    { name: 'SEMAD-NUJUR' },
-    { name: 'SEMAD-SA' }
+    {name: 'SEMAD-DAL'},
+    {name: 'SEMAD-DTI'},
+    {name: 'SEMAD-DGP'},
+    {name: 'SEMAD-DSO'},
+    {name: 'SEMAD-EGPA'},
+    {name: 'SEMAD-GAB'},
+    {name: 'SEMAD-NUCOM'},
+    {name: 'SEMAD-NUJUR'},
+    {name: 'SEMAD-SA'}
 ];
