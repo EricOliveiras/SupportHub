@@ -36,7 +36,7 @@ export class UserRepository {
                         }
                     }
                 },
-                serviceOrder: true,
+                tickets: true,
             }
         });
     }
@@ -48,7 +48,7 @@ export class UserRepository {
             },
             include: {
                 Sector: true,
-                serviceOrder: true,
+                tickets: true,
             }
         });
     }
