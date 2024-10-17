@@ -33,7 +33,8 @@ const main = async () => {
                 fullName: 'admin',
                 email: 'admin@example.com',
                 password: await hash('admin', saltRounds),
-                roleId: 1
+                roleId: 1,
+                sectorId: 2
             },
         });
 
