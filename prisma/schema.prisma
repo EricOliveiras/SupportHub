@@ -8,33 +8,33 @@ datasource db {
 }
 
 model User {
-  id           Int            @id @default(autoincrement())
-  fullName     String         @map("fullname")
-  email        String         @unique
-  password     String
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  roleId       Int
-  isActive     Boolean        @default(true)
-  sectorId     Int?
-  serviceOrder ServiceOrder[]
-  Sector       Sector?        @relation(fields: [sectorId], references: [id])
-  User_Role    User_Role[]
+  id        Int         @id @default(autoincrement())
+  fullName  String      @map("fullname")
+  email     String      @unique
+  password  String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  roleId    Int
+  isActive  Boolean     @default(true)
+  sectorId  Int?
+  tickets   Ticket[]
+  Sector    Sector?     @relation(fields: [sectorId], references: [id])
+  User_Role User_Role[]
 
-  @@map("user")
   @@index([email])
+  @@map("user")
 }
 
 model Sector {
-  id     Int            @id @default(autoincrement())
-  name   String         @unique
-  users  User[]
-  orders ServiceOrder[]
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  users   User[]
+  tickets Ticket[]
 
   @@map("sector")
 }
 
-model ServiceOrder {
+model Ticket {
   id                 Int      @id @default(autoincrement())
   requester          String
   problemDescription String
@@ -46,7 +46,7 @@ model ServiceOrder {
   Sector             Sector?  @relation(fields: [sectorId], references: [id])
   user               User     @relation(fields: [userId], references: [id])
 
-  @@map("service_order")
+  @@map("ticket")
 }
 
 model Role {
