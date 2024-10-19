@@ -30,7 +30,19 @@ export class UserService implements IUserService {
 
         await this.userRepository.addRole(createdUser.id, user.roleId);
 
-        return createdUser;
+        const {id, fullName, password, email, isActive, sectorId, roleId, createdAt, updatedAt} = createdUser;
+
+        return {
+            id,
+            fullName,
+            password,
+            email,
+            isActive,
+            sectorId,
+            roleId,
+            createdAt,
+            updatedAt
+        };
     }
 
     public async findAll(): Promise<UserWithoutPasswordDTO[]> {
