@@ -8,8 +8,14 @@ export interface CreateUserDTO {
 
 export interface UserResponseDTO {
     id: number;
+    fullName: string;
+    email: string;
+    password: string;
     createdAt: Date;
     updatedAt: Date;
+    roleId: number;
+    isActive: boolean;
+    sectorId: number | null;
 }
 
 export type UserWithoutPasswordDTO = Omit<UserResponseDTO, "password">;
