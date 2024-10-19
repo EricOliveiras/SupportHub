@@ -35,4 +35,4 @@ userRouter.put("/users/update/:id",
     authenticated,
     canRequest("update:user"),
     userController.update.bind(userController)
-)
+);
