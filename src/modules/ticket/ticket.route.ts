@@ -5,7 +5,6 @@ import {UserRepository} from "../user/user.repository";
 import {TicketController} from "./ticket.controller";
 import {authenticated} from "../../middlewares/authMiddlware";
 import {canRequest} from "../../middlewares/permissionsMiddleware";
-import {UserService} from "../user/user.service";
 import {SectorRepository} from "../sector/sector.repository";
 
 export const ticketRouter = Router();
