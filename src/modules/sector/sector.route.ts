@@ -31,7 +31,7 @@ sectorRouter.put("/sectors/update/:id",
     canRequest("update:sector"),
     sectorController.update.bind(sectorController)
 );
-sectorRouter.put("/sectors/delete/:id",
+sectorRouter.delete("/sectors/delete/:id",
     authenticated,
     canRequest("delete:sector"),
     sectorController.delete.bind(sectorController)
