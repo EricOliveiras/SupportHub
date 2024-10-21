@@ -117,6 +117,13 @@ export const permissions: Permission[] = [
         description: null,
         created_at: new Date(),
     }
+    ,
+    {
+        id: 17,
+        name: 'ticket:assignedTo',
+        description: null,
+        created_at: new Date(),
+    }
 ];
 
 export const permission_role: Permission_Role[] = [
@@ -136,6 +143,7 @@ export const permission_role: Permission_Role[] = [
     {role_id: 1, permission_id: 14},
     {role_id: 1, permission_id: 15},
     {role_id: 1, permission_id: 16},
+    {role_id: 1, permission_id: 17},
     {role_id: 2, permission_id: 6},
     {role_id: 2, permission_id: 7},
     {role_id: 2, permission_id: 8},

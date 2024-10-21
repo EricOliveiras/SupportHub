@@ -24,6 +24,11 @@ const main = async () => {
             skipDuplicates: true,
         });
 
+        await prisma.sector.createMany({
+            data: sectors,
+            skipDuplicates: true
+        });
+
         const admin = await prisma.user.upsert({
             where: {
                 email: 'admin@example.com'
@@ -34,7 +39,8 @@ const main = async () => {
                 email: 'admin@example.com',
                 password: await hash('admin', saltRounds),
                 roleId: 1,
-                sectorId: 2
+                sectorId: 2,
+                isAdmin: true
             },
         });
 
@@ -45,12 +51,6 @@ const main = async () => {
             },
             skipDuplicates: true
         });
-
-        await prisma.sector.createMany({
-            data: sectors,
-            skipDuplicates: true
-        });
-
     } catch (error) {
         console.error(error);
         await prisma.$disconnect();
