@@ -31,6 +31,9 @@
  *               roleId:
  *                 type: integer
  *                 example: 2
+ *               isAdmin:
+ *                 type: boolean
+ *                 example: true
  *     responses:
  *       201:
  *         description: Usuário criado com sucesso
@@ -189,6 +192,9 @@
  *         isActive:
  *           type: boolean
  *           example: true
+ *         isAdmin:
+ *           type: boolean
+ *           example: true
  *         sectorId:
  *           type: integer
  *           nullable: true
@@ -217,6 +223,9 @@
  *           type: integer
  *           example: 2
  *         isActive:
+ *           type: boolean
+ *           example: true
+ *         isAdmin:
  *           type: boolean
  *           example: true
  *         sectorId:
