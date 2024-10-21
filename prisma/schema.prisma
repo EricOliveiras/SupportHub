@@ -8,18 +8,20 @@ datasource db {
 }
 
 model User {
-  id        Int         @id @default(autoincrement())
-  fullName  String      @map("fullname")
-  email     String      @unique
-  password  String
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  roleId    Int
-  isActive  Boolean     @default(true)
-  sectorId  Int?
-  tickets   Ticket[]
-  Sector    Sector?     @relation(fields: [sectorId], references: [id])
-  User_Role User_Role[]
+  id             Int         @id @default(autoincrement())
+  fullName       String      @map("fullname")
+  email          String      @unique
+  password       String
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  roleId         Int
+  isActive       Boolean     @default(true)
+  isAdmin        Boolean
+  sectorId       Int?
+  Sector         Sector?     @relation(fields: [sectorId], references: [id])
+  User_Role      User_Role[]
+  Ticket         Ticket[]
+  TicketAssigned Ticket[]    @relation("TicketAssigned")
 
   @@index([email])
   @@map("user")
@@ -45,6 +47,8 @@ model Ticket {
   sectorId           Int?
   Sector             Sector?  @relation(fields: [sectorId], references: [id])
   user               User     @relation(fields: [userId], references: [id])
+  assignedToId       Int?
+  assignedTo         User?    @relation("TicketAssigned", fields: [assignedToId], references: [id])
 
   @@map("ticket")
 }
