@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
+  "engines": {
+    "node": "20"
+  },
   "scripts": {
     "build": "tsc",
+    "start": "node dist/index.js",
     "dev:start": "nodemon",
     "dev:build": "docker compose up -d && timeout /t 5 && prisma generate && prisma migrate dev && prisma db seed"
   },
