@@ -24,6 +24,12 @@ export class TicketRepository {
                     },
                 },
                 Sector: true,
+                assignedTo: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                    }
+                },
             }
         });
     }
@@ -41,6 +47,12 @@ export class TicketRepository {
                     },
                 },
                 Sector: true,
+                assignedTo: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                    }
+                },
             }
         });
     }
@@ -58,6 +70,12 @@ export class TicketRepository {
                     },
                 },
                 Sector: true,
+                assignedTo: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                    }
+                },
             }
         });
     }
@@ -75,8 +93,25 @@ export class TicketRepository {
                     },
                 },
                 Sector: true,
+                assignedTo: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                    }
+                },
             }
         });
+    }
+
+    public async assignedTicket(userId: number, ticketId: number): Promise<Ticket> {
+        return db.ticket.update({
+            where: {
+                id: ticketId
+            },
+            data: {
+                assignedToId: userId
+            }
+        })
     }
 
     public async update(id: number, ticket: UpdateTicketDTO): Promise<Ticket> {

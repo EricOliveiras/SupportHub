@@ -35,6 +35,15 @@ export class TicketController {
         });
     }
 
+    public async assignedTicket(req: Request, res: Response): Promise<Response> {
+        const userId = req.user?.userId as number;
+        const {id} = req.params;
+        const ticket = await this.ticketService.assignedTicket(userId, parseInt(id));
+        return res.status(200).json({
+            ticket: ticket
+        });
+    }
+
     public async update(req: Request, res: Response): Promise<Response> {
         const {id} = req.params;
         const {problemDescription}: UpdateTicketDTO = req.body;

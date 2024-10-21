@@ -35,6 +35,11 @@ ticketRouter.put("/tickets/update/:id",
     canRequest("update:ticket"),
     ticketController.update.bind(ticketController)
 );
+ticketRouter.put("/tickets/update/assigned-ticket/:id",
+    authenticated,
+    canRequest("ticket:assignedTo"),
+    ticketController.assignedTicket.bind(ticketController)
+);
 ticketRouter.delete("/tickets/delete/:id",
     authenticated,
     canRequest("delete:ticket"),

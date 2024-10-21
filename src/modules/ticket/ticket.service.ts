@@ -46,6 +46,25 @@ export class TicketService implements ITicketService {
         return ticket;
     }
 
+    public async assignedTicket(userId: number, ticketId: number): Promise<TicketResponseDTO> {
+        const checkIfUserExist = await this.userRepository.findById(userId);
+        const checkIfTicketExist = await this.ticketRepository.findById(ticketId);
+
+        if (!checkIfTicketExist) {
+            throw new HttpException(404, "ticket not found");
+        }
+
+        if (checkIfTicketExist.assignedToId !== null) {
+            throw new HttpException(400, "ticket already assigned");
+        }
+
+        if (!checkIfUserExist) {
+            throw new HttpException(404, "user not found or not exists");
+        }
+
+        return await this.ticketRepository.assignedTicket(userId, ticketId);
+    }
+
     public async delete(id: number): Promise<void> {
         const ticket = await this.ticketRepository.findById(id);
 
