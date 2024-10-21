@@ -13,6 +13,11 @@ const swaggerOptions = {
         servers: [
             {
                 url: 'http://localhost:3333',
+                description: 'Desenvolvimento Local',
+            },
+            {
+                url: 'https://supporthub-api.onrender.com',
+                description: 'Produção',
             },
         ],
         components: {
