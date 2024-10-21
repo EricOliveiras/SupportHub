@@ -12,7 +12,7 @@ export class AuthenticateService {
         const user = await this.repository.findByEmail(email);
 
         if (!user || !await compare(password, user.password)) {
-            throw new HttpException(401, "unauthorized");
+            throw new HttpException(401, "invalid credentials");
         }
 
         const permissions = user.User_Role.map((i) => {
