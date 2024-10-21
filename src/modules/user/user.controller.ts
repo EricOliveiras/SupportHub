@@ -6,14 +6,15 @@ export class UsersController {
     constructor(private readonly userService: UserService) {}
 
     public async create(req: Request, res: Response): Promise<Response> {
-        const {fullName, email, password, roleId, sectorId}: CreateUserDTO = req.body;
+        const {fullName, email, password, roleId, sectorId, isAdmin}: CreateUserDTO = req.body;
 
         const createUser: UserResponseDTO = await this.userService.create({
             fullName,
             email,
             password,
             roleId,
-            sectorId
+            sectorId,
+            isAdmin
         });
 
         return res.status(201).json({

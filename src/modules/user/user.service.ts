@@ -26,11 +26,12 @@ export class UserService implements IUserService {
             password: hashPassword,
             roleId: user.roleId,
             sectorId: user.sectorId,
+            isAdmin: user.isAdmin,
         });
 
         await this.userRepository.addRole(createdUser.id, user.roleId);
 
-        const {id, fullName, password, email, isActive, sectorId, roleId, createdAt, updatedAt} = createdUser;
+        const {id, fullName, password, email, isActive, sectorId, roleId, createdAt, updatedAt, isAdmin} = createdUser;
 
         return {
             id,
@@ -40,6 +41,7 @@ export class UserService implements IUserService {
             isActive,
             sectorId,
             roleId,
+            isAdmin,
             createdAt,
             updatedAt
         };

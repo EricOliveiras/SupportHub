@@ -3,6 +3,7 @@ export interface CreateUserDTO {
     email: string;
     password: string;
     sectorId: number;
+    isAdmin: boolean;
     roleId: number;
 }
 
@@ -15,6 +16,7 @@ export interface UserResponseDTO {
     updatedAt: Date;
     roleId: number;
     isActive: boolean;
+    isAdmin: boolean;
     sectorId: number | null;
 }
 
