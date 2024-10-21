@@ -11,6 +11,7 @@ const availableFeatures = [
     'create:ticket',
     'read:ticket',
     'read:ticket:list',
+    'ticket:assignedTo',
     'update:ticket',
     'delete:ticket',
     'create:sector',
