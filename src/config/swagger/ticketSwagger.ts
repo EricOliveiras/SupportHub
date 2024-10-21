@@ -16,18 +16,9 @@
  *           schema:
  *             type: object
  *             properties:
- *               requester:
- *                 type: string
- *                 example: "Usuário Teste"
  *               problemDescription:
  *                 type: string
  *                 example: "Não consigo acessar o sistema."
- *               userId:
- *                 type: integer
- *                 example: 1
- *               sectorId:
- *                 type: integer
- *                 example: 2
  *     responses:
  *       201:
  *         description: Ticket criado com sucesso
@@ -117,15 +108,44 @@
  *           schema:
  *             type: object
  *             properties:
- *               requester:
- *                 type: string
- *                 example: "Usuário Atualizado"
  *               problemDescription:
  *                 type: string
  *                 example: "Problema atualizado."
  *               finished:
  *                 type: boolean
  *                 example: true
+ *     responses:
+ *       200:
+ *         description: Ticket atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TicketResponseDTO'
+ *       400:
+ *         description: Dados de entrada inválidos
+ *       401:
+ *         description: Não autorizado (falta ou erro no token JWT)
+ *       404:
+ *         description: Ticket não encontrado
+ */
+
+/**
+ * @swagger
+ * /tickets/update/assigned-ticket/{id}:
+ *   put:
+ *     summary: Atribui um ticket a um admin
+ *     description: Atualiza as informações de um ticket específico pelo ID.
+ *     tags:
+ *       - Ticket
+ *     security:
+ *       - bearerAuth: []  # Exige autenticação JWT
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID do ticket a ser atualizado
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
  *         description: Ticket atualizado com sucesso
