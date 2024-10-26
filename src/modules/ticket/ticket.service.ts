@@ -3,6 +3,7 @@ import {TicketRepository} from "./ticket.repository";
 import {UserRepository} from "../user/user.repository";
 import {HttpException} from "../../errors/http.exception";
 import {SectorRepository} from "../sector/sector.repository";
+import { io } from "../../config/socket";
 
 export class TicketService implements ITicketService {
     constructor(
@@ -24,12 +25,16 @@ export class TicketService implements ITicketService {
             throw new HttpException(400, "sector id not exists");
         }
 
-        return await this.ticketRepository.create({
+        const ticketCreated = await this.ticketRepository.create({
             requester: fullName.toLowerCase(),
             problemDescription: ticket.problemDescription.toLowerCase(),
             userId: id,
             sectorId: sectorId as number,
         });
+
+        io.emit('ticketCreated', ticketCreated);
+
+        return ticketCreated;
     }
 
     public async findAll(): Promise<TicketResponseDTO[]> {
@@ -38,6 +43,16 @@ export class TicketService implements ITicketService {
 
     public async findById(id: number): Promise<TicketResponseDTO> {
         const ticket = await this.ticketRepository.findById(id);
+
+        if (!ticket) {
+            throw new HttpException(404, "ticket not found");
+        }
+
+        return ticket;
+    }
+
+    public async findByUserId(userId: number): Promise<TicketResponseDTO[]> {
+        const ticket = await this.ticketRepository.findByUserId(userId);
 
         if (!ticket) {
             throw new HttpException(404, "ticket not found");
@@ -62,7 +77,11 @@ export class TicketService implements ITicketService {
             throw new HttpException(404, "user not found or not exists");
         }
 
-        return await this.ticketRepository.assignedTicket(userId, ticketId);
+        const updatedTicket = await this.ticketRepository.assignedTicket(userId, ticketId);
+
+        io.emit('assignedTicket', updatedTicket);
+
+        return updatedTicket;
     }
 
     public async delete(id: number): Promise<void> {
@@ -81,7 +100,11 @@ export class TicketService implements ITicketService {
         if (!ticket) {
             throw new HttpException(404, "ticket not found");
         }
+    
+        const updatedTicket = await this.ticketRepository.update(id, data);
 
-        return await this.ticketRepository.update(id, data);
+        io.emit('ticketUpdated', updatedTicket);
+    
+        return updatedTicket;
     }
 }
