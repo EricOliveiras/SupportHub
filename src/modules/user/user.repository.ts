@@ -10,7 +10,12 @@ export class UserRepository {
     }
 
     public async findAll(): Promise<User[]> {
-        return prisma.user.findMany();
+        return prisma.user.findMany({
+            include: {
+                Ticket: true,
+                Sector: true
+            }
+        });
     }
 
     public async findByEmail(email: string) {

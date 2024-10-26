@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { saltRounds } from '../../src/config/vars';
-import {permission_role, permissions, roles, sectors} from './data';
-import {hash} from "bcryptjs";
+import { permission_role, permissions, roles, sectors } from './data';
+import { hash } from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -9,30 +9,40 @@ const main = async () => {
     console.log('> Seeding database...');
 
     try {
-        await prisma.role.createMany({
-            data: roles,
-            skipDuplicates: true,
-        });
+        for (const role of roles) {
+            await prisma.role.upsert({
+                where: { type: role.type },
+                update: {},
+                create: role,
+            });
+        }
 
-        await prisma.permission.createMany({
-            data: permissions,
-            skipDuplicates: true,
-        });
+        for (const permission of permissions) {
+            await prisma.permission.upsert({
+                where: { name: permission.name },
+                update: {},
+                create: permission,
+            });
+        }
 
-        await prisma.permission_Role.createMany({
-            data: permission_role,
-            skipDuplicates: true,
-        });
+        for (const pr of permission_role) {
+            await prisma.permission_Role.upsert({
+                where: { role_id_permission_id: { role_id: pr.role_id, permission_id: pr.permission_id } },
+                update: {},
+                create: pr,
+            });
+        }
 
-        await prisma.sector.createMany({
-            data: sectors,
-            skipDuplicates: true
-        });
+        for (const sector of sectors) {
+            await prisma.sector.upsert({
+                where: { name: sector.name },
+                update: {},
+                create: sector,
+            });
+        }
 
         const admin = await prisma.user.upsert({
-            where: {
-                email: 'admin@example.com'
-            },
+            where: { email: 'admin@example.com' },
             update: {},
             create: {
                 fullName: 'admin',
@@ -40,16 +50,17 @@ const main = async () => {
                 password: await hash('admin', saltRounds),
                 roleId: 1,
                 sectorId: 2,
-                isAdmin: true
+                isAdmin: true,
             },
         });
 
-        await prisma.user_Role.createMany({
-            data: {
+        await prisma.user_Role.upsert({
+            where: { role_id_user_id: { role_id: admin.roleId, user_id: admin.id } },
+            update: {},
+            create: {
                 role_id: admin.roleId,
-                user_id: admin.id
+                user_id: admin.id,
             },
-            skipDuplicates: true
         });
     } catch (error) {
         console.error(error);
