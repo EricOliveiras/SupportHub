@@ -25,6 +25,11 @@ ticketRouter.get("/tickets",
     canRequest("read:ticket:list"),
     ticketController.findAll.bind(ticketController)
 );
+ticketRouter.get("/tickets/user",
+    authenticated,
+    canRequest("read:ticket:list"),
+    ticketController.findByUserId.bind(ticketController)
+);
 ticketRouter.get("/tickets/:id",
     authenticated,
     canRequest("read:ticket"),
