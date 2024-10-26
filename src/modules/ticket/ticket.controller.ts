@@ -35,6 +35,14 @@ export class TicketController {
         });
     }
 
+    public async findByUserId(req: Request, res: Response): Promise<Response> {
+        const userId = req.user?.userId as number;
+        const tickets = await this.ticketService.findByUserId(userId);
+        return res.status(200).json({
+            tickets: tickets
+        });
+    }
+
     public async assignedTicket(req: Request, res: Response): Promise<Response> {
         const userId = req.user?.userId as number;
         const {id} = req.params;
@@ -46,10 +54,10 @@ export class TicketController {
 
     public async update(req: Request, res: Response): Promise<Response> {
         const {id} = req.params;
-        const {problemDescription}: UpdateTicketDTO = req.body;
+        const {problemDescription, finished}: UpdateTicketDTO = req.body;
         const ticket = await this.ticketService.update(
             parseInt(id),
-            {problemDescription}
+            {problemDescription, finished}
         );
         return res.status(200).json({
             ticket: ticket
