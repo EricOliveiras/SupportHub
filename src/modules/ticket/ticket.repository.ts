@@ -80,7 +80,7 @@ export class TicketRepository {
         });
     }
 
-    public fundByUserId(id: number): Promise<Ticket[]> {
+    public findByUserId(id: number): Promise<Ticket[]> {
         return db.ticket.findMany({
             where: {
                 userId: id,
