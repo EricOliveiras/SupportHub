@@ -69,17 +69,31 @@ export class UserService implements IUserService {
         return findUser;
     }
 
-    public async update(id: number, {fullName, sectorId, roleId}: UpdateUserDTO): Promise<UserResponseDTO> {
+    public async update(id: number, {fullName, password, sectorId, roleId, isActive}: UpdateUserDTO): Promise<UserResponseDTO> {
         const findUser = await this.userRepository.findById(id);
 
         if (!findUser) {
             throw new HttpException(404, "user not found");
         }
 
+        const newPassword = password ? await hash(password, saltRounds) : findUser.password;
+
         return await this.userRepository.update(id, {
             fullName: fullName ? fullName.toLowerCase() : findUser.fullName,
+            password: newPassword,
             sectorId: sectorId,
             roleId: roleId,
+            isActive: isActive
         });
+    }
+
+    public async delete(id: number): Promise<void> {
+        const findUser = await this.userRepository.findById(id);
+
+        if (!findUser) {
+            throw new HttpException(404, "user not found");
+        }
+
+        await this.userRepository.delete(id);
     }
 }

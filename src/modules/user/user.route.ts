@@ -36,3 +36,8 @@ userRouter.put("/users/update/:id",
     canRequest("update:user"),
     userController.update.bind(userController)
 );
+userRouter.put("/users/delete/:id",
+    authenticated,
+    canRequest("update:user"),
+    userController.delete.bind(userController)
+);

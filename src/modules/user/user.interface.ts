@@ -25,7 +25,9 @@ export type UserWithoutPasswordDTO = Omit<UserResponseDTO, "password">;
 export interface UpdateUserDTO {
     fullName?: string;
     sectorId?: number;
+    password?: string;
     roleId?: number;
+    isActive?: boolean;
 }
 
 export interface AuthUserRequestDTO {

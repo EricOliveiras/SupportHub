@@ -77,4 +77,13 @@ export class UserRepository {
             }
         });
     }
+
+    public async delete(id: number): Promise<void> {
+        await prisma.user.update({
+            where: {id: id},
+            data: {
+                isActive: false
+            }
+        });
+    }
 }

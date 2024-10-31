@@ -8,6 +8,7 @@ export interface CreateTicketDTO {
 export interface UpdateTicketDTO {
     requester?: string;
     problemDescription?: string;
+    notes?: string;
     finished?: boolean;
 }
 

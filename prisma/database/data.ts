@@ -144,6 +144,7 @@ export const permission_role: Permission_Role[] = [
     {role_id: 1, permission_id: 15},
     {role_id: 1, permission_id: 16},
     {role_id: 1, permission_id: 17},
+    {role_id: 2, permission_id: 4},
     {role_id: 2, permission_id: 6},
     {role_id: 2, permission_id: 7},
     {role_id: 2, permission_id: 8},

@@ -54,10 +54,10 @@ export class TicketController {
 
     public async update(req: Request, res: Response): Promise<Response> {
         const {id} = req.params;
-        const {problemDescription, finished}: UpdateTicketDTO = req.body;
+        const {problemDescription, finished, notes}: UpdateTicketDTO = req.body;
         const ticket = await this.ticketService.update(
             parseInt(id),
-            {problemDescription, finished}
+            {problemDescription, finished, notes}
         );
         return res.status(200).json({
             ticket: ticket

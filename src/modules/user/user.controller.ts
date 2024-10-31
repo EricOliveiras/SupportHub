@@ -48,11 +48,19 @@ export class UsersController {
 
     public async update(req: Request, res: Response): Promise<Response> {
         const {id} = req.params;
-        const {fullName, roleId, sectorId} = req.body;
-        const user = await this.userService.update(parseInt(id), {fullName, roleId, sectorId});
+        const {fullName, roleId, sectorId, password, isActive} = req.body;
+        const user = await this.userService.update(parseInt(id), {fullName, roleId, sectorId, password, isActive});
         return res.status(200).json({
             message: 'User successfully updated',
             user: user
+        });
+    }
+
+    public async delete(req: Request, res: Response): Promise<Response> {
+        const {id} = req.params;
+        await this.userService.delete(parseInt(id));
+        return res.status(200).json({
+            message: 'User successfully deleted',
         });
     }
 }
