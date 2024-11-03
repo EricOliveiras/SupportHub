@@ -14,3 +14,5 @@ yarn-error.log*
 dist
 
 .env
+
+prisma/dev.db
