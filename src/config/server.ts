@@ -23,9 +23,10 @@ app.use(
 
 setupSwagger(app);
 
-app.use(errorMiddleware);
 app.use(authRouter);
 app.use(userRouter);
 app.use(sectorRouter);
 app.use(ticketRouter);
 app.use(ticketTypeRouter);
+
+app.use(errorMiddleware);
