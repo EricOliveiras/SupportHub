@@ -6,6 +6,7 @@ import { authRouter } from "../modules/auth/authenticate.route";
 import { sectorRouter } from "../modules/sector/sector.route";
 import { ticketRouter } from "../modules/ticket/ticket.route";
 import { setupSwagger } from "./swagger/swagger";
+import { ticketTypeRouter } from "../modules/ticketType/ticketType.route";
 
 export const app = express();
 
@@ -22,9 +23,9 @@ app.use(
 
 setupSwagger(app);
 
+app.use(errorMiddleware);
 app.use(authRouter);
 app.use(userRouter);
 app.use(sectorRouter);
 app.use(ticketRouter);
-
-app.use(errorMiddleware);
+app.use(ticketTypeRouter);

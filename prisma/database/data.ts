@@ -2,7 +2,8 @@ import {
     Permission,
     Permission_Role,
     Role,
-    Sector
+    Sector,
+    TicketType
 } from '@prisma/client';
 
 export const roles: Role[] = [
@@ -163,4 +164,15 @@ export const sectors: Omit<Sector, 'id'>[] = [
     {name: 'SEMAD-NUCOM'},
     {name: 'SEMAD-NUJUR'},
     {name: 'SEMAD-SA'}
+];
+
+export const ticketsType: Omit<TicketType, 'id'>[] = [
+    {name: 'Troca de equipamento'},
+    {name: 'Problemas com acesso ao sistema'},
+    {name: 'Problemas de rede/internet'},
+    {name: 'Erro em software'},
+    {name: 'Atualização de software'},
+    {name: 'Falha no sistema'},
+    {name: 'Problemas com impressão'},
+    {name: 'Outros'},
 ];

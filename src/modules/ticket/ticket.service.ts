@@ -1,110 +1,141 @@
-import {CreateTicketDTO, ITicketService, TicketResponseDTO, UpdateTicketDTO} from "./ticket.interface";
-import {TicketRepository} from "./ticket.repository";
-import {UserRepository} from "../user/user.repository";
-import {HttpException} from "../../errors/http.exception";
-import {SectorRepository} from "../sector/sector.repository";
+import {
+  CreateTicketDTO,
+  ITicketService,
+  TicketResponseDTO,
+  UpdateTicketDTO,
+} from "./ticket.interface";
+import { TicketRepository } from "./ticket.repository";
+import { UserRepository } from "../user/user.repository";
+import { HttpException } from "../../errors/http.exception";
+import { SectorRepository } from "../sector/sector.repository";
 import { io } from "../../config/socket";
 
 export class TicketService implements ITicketService {
-    constructor(
-        private readonly ticketRepository: TicketRepository,
-        private readonly userRepository: UserRepository,
-        private readonly sectorRepository: SectorRepository
-    ) {
+  constructor(
+    private readonly ticketRepository: TicketRepository,
+    private readonly userRepository: UserRepository,
+    private readonly sectorRepository: SectorRepository
+  ) {}
+
+  public async create(ticket: CreateTicketDTO): Promise<TicketResponseDTO> {
+    const checkIfUserExist = await this.userRepository.findById(ticket.userId);
+    if (!checkIfUserExist) {
+      throw new HttpException(400, "user id not exists");
     }
 
-    public async create(ticket: CreateTicketDTO): Promise<TicketResponseDTO> {
-        const checkIfUserExist = await this.userRepository.findById(ticket.userId);
-        if (!checkIfUserExist) {
-            throw new HttpException(400, "user id not exists");
-        }
-
-        const { id, fullName, sectorId } = checkIfUserExist;
-        const checkIfSectorExist = await this.sectorRepository.findById(sectorId as number);
-        if (!checkIfSectorExist) {
-            throw new HttpException(400, "sector id not exists");
-        }
-
-        const ticketCreated = await this.ticketRepository.create({
-            requester: fullName.toLowerCase(),
-            problemDescription: ticket.problemDescription.toLowerCase(),
-            userId: id,
-            sectorId: sectorId as number,
-        });
-
-        io.emit('ticketCreated', ticketCreated);
-
-        return ticketCreated;
+    const { id, fullName, sectorId } = checkIfUserExist;
+    const checkIfSectorExist = await this.sectorRepository.findById(
+      sectorId as number
+    );
+    if (!checkIfSectorExist) {
+      throw new HttpException(400, "sector id not exists");
     }
 
-    public async findAll(): Promise<TicketResponseDTO[]> {
-        return await this.ticketRepository.findAll();
+    const ticketCreated = await this.ticketRepository.create({
+      requester: fullName.toLowerCase(),
+      problemDescription: ticket.problemDescription.toLowerCase(),
+      userId: id,
+      sectorId: sectorId as number,
+      ticketTypeId: ticket.ticketTypeId,
+    });
+
+    io.emit("ticketCreated", ticketCreated);
+
+    return ticketCreated;
+  }
+
+  public async findAll(): Promise<TicketResponseDTO[]> {
+    return await this.ticketRepository.findAll();
+  }
+
+  public async findById(id: number): Promise<TicketResponseDTO> {
+    const ticket = await this.ticketRepository.findById(id);
+
+    if (!ticket) {
+      throw new HttpException(404, "ticket not found");
     }
 
-    public async findById(id: number): Promise<TicketResponseDTO> {
-        const ticket = await this.ticketRepository.findById(id);
+    return ticket;
+  }
 
-        if (!ticket) {
-            throw new HttpException(404, "ticket not found");
-        }
+  public async findByUserId(userId: number): Promise<TicketResponseDTO[]> {
+    const ticket = await this.ticketRepository.findByUserId(userId);
 
-        return ticket;
+    if (!ticket) {
+      throw new HttpException(404, "ticket not found");
     }
 
-    public async findByUserId(userId: number): Promise<TicketResponseDTO[]> {
-        const ticket = await this.ticketRepository.findByUserId(userId);
+    return ticket;
+  }
 
-        if (!ticket) {
-            throw new HttpException(404, "ticket not found");
-        }
+  public async assignedTicket(
+    userId: number,
+    ticketId: number
+  ): Promise<TicketResponseDTO> {
+    const checkIfUserExist = await this.userRepository.findById(userId);
+    const checkIfTicketExist = await this.ticketRepository.findById(ticketId);
 
-        return ticket;
+    if (!checkIfTicketExist) {
+      throw new HttpException(404, "ticket not found");
     }
 
-    public async assignedTicket(userId: number, ticketId: number): Promise<TicketResponseDTO> {
-        const checkIfUserExist = await this.userRepository.findById(userId);
-        const checkIfTicketExist = await this.ticketRepository.findById(ticketId);
-
-        if (!checkIfTicketExist) {
-            throw new HttpException(404, "ticket not found");
-        }
-
-        if (checkIfTicketExist.assignedToId !== null) {
-            throw new HttpException(400, "ticket already assigned");
-        }
-
-        if (!checkIfUserExist) {
-            throw new HttpException(404, "user not found or not exists");
-        }
-
-        const updatedTicket = await this.ticketRepository.assignedTicket(userId, ticketId);
-
-        io.emit('assignedTicket', updatedTicket);
-
-        return updatedTicket;
+    if (checkIfTicketExist.assignedToId !== null) {
+      throw new HttpException(400, "ticket already assigned");
     }
 
-    public async delete(id: number): Promise<void> {
-        const ticket = await this.ticketRepository.findById(id);
-
-        if (!ticket) {
-            throw new HttpException(404, "ticket not found");
-        }
-
-        await this.ticketRepository.delete(id);
+    if (!checkIfUserExist) {
+      throw new HttpException(404, "user not found or not exists");
     }
 
-    public async update(id: number, data: UpdateTicketDTO): Promise<TicketResponseDTO> {
-        const ticket = await this.ticketRepository.findById(id);
+    const updatedTicket = await this.ticketRepository.assignedTicket(
+      userId,
+      ticketId
+    );
 
-        if (!ticket) {
-            throw new HttpException(404, "ticket not found");
-        }
-    
-        const updatedTicket = await this.ticketRepository.update(id, data);
+    io.emit("assignedTicket", updatedTicket);
 
-        io.emit('ticketUpdated', updatedTicket);
-    
-        return updatedTicket;
+    return updatedTicket;
+  }
+
+  public async delete(id: number): Promise<void> {
+    const ticket = await this.ticketRepository.findById(id);
+
+    if (!ticket) {
+      throw new HttpException(404, "ticket not found");
     }
+
+    await this.ticketRepository.delete(id);
+  }
+
+  public async update(
+    id: number,
+    data: UpdateTicketDTO
+  ): Promise<TicketResponseDTO> {
+    const ticket = await this.ticketRepository.findById(id);
+
+    if (!ticket) {
+      throw new HttpException(404, "ticket not found");
+    }
+
+    const updatedTicket = await this.ticketRepository.update(id, data);
+
+    io.emit("ticketUpdated", updatedTicket);
+
+    return updatedTicket;
+  }
+
+  public async getTotalTickets(): Promise<number> {
+    return await this.ticketRepository.getTotalTickets();
+  }
+
+  public async getTicketsByType(): Promise<{ type: string; count: number }[]> {
+    const tickets = await this.ticketRepository.getTicketsByType();
+    return tickets;
+  }
+
+  public async getTicketsBySector(): Promise<
+    { sectorId: number; name: string; count: number }[]
+  > {
+    return await this.ticketRepository.getTicketsBySector();
+  }
 }

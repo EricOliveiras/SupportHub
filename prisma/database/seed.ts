@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { saltRounds } from '../../src/config/vars';
-import { permission_role, permissions, roles, sectors } from './data';
+import { permission_role, permissions, roles, sectors, ticketsType } from './data';
 import { hash } from 'bcryptjs';
 
 const prisma = new PrismaClient();
@@ -40,6 +40,21 @@ const main = async () => {
                 create: sector,
             });
         }
+
+        for (const ticketType of ticketsType) {
+            const existingTicketType = await prisma.ticketType.findUnique({
+                where: { name: ticketType.name },
+            });
+        
+            if (existingTicketType) {
+                continue; 
+            } else {
+                await prisma.ticketType.create({
+                    data: ticketType,
+                });
+            }
+        }
+        
 
         const admin = await prisma.user.upsert({
             where: { email: 'admin@example.com' },
