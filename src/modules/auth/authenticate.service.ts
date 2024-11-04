@@ -22,7 +22,6 @@ export class AuthenticateService {
         const token = sign(
             {userId: user.id, permissions: permissions},
             jwtSecret,
-            {expiresIn: '7d'},
         );
 
         return {

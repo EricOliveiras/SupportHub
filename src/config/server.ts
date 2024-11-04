@@ -7,6 +7,7 @@ import { sectorRouter } from "../modules/sector/sector.route";
 import { ticketRouter } from "../modules/ticket/ticket.route";
 import { setupSwagger } from "./swagger/swagger";
 import { ticketTypeRouter } from "../modules/ticketType/ticketType.route";
+import { frontURL } from "./vars";
 
 export const app = express();
 
@@ -14,7 +15,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: frontURL,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,

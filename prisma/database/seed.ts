@@ -64,7 +64,7 @@ const main = async () => {
                 email: 'admin@example.com',
                 password: await hash('admin', saltRounds),
                 roleId: 1,
-                sectorId: 2,
+                sectorId: 3,
                 isAdmin: true,
             },
         });
